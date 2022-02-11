@@ -1,0 +1,21 @@
+---
+- name: check for grub
+  stat:
+    dest: /srv/tftp/pxelinux.0
+  register: grub
+
+- name: download grub
+  get_url:
+    url: http://archive.ubuntu.com/ubuntu/dists/focal/main/installer-amd64/current/legacy-images/netboot/pxelinux.0
+    dest: /srv/tftp/pxelinux.0
+  when: grub.stat.islnk is not defined
+
+- name: Create a directory if it does not exist
+  file:
+    path: /srv/tftp/grub
+    state: directory
+
+- name: Configure http server
+  template:
+    src: grub.cfg.j2
+    dest: /srv/tftp/grub/grub.cfg

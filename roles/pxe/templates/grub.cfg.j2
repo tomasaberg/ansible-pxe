@@ -1,0 +1,17 @@
+default=autoinstall
+timeout=30
+timeout_style=menu
+menuentry "Focal Live Installer - automated" --id=autoinstall {
+    echo "Loading Kernel..."
+    linux /vmlinuz ip=dhcp url=http://{{ inventory_hostname }}/ubuntu-20.04.3-live-server-amd64.iso
+ autoinstall ds="nocloud-net;s=http://{{ inventory_hostname }}/" root=/dev/ram0 cloud-config-url=/dev/null
+    echo "Loading Ram Disk..."
+    initrd /initrd
+}
+menuentry "Focal Live Installer" --id=install {
+    echo "Loading Kernel..."
+    linux /vmlinuz ip=dhcp url=http://{{ inventory_hostname }}/ubuntu-20.04.3-live-server-amd64.iso
+ root=/dev/ram0 cloud-config-url=/dev/null
+    echo "Loading Ram Disk..."
+    initrd /initrd
+}

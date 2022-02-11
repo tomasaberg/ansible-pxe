@@ -1,0 +1,19 @@
+- name: check for iso
+  stat:
+    path: /srv/http/ubuntu-20.04.3-live-server-amd64.iso
+  register: iso
+
+- name: download iso
+  get_url:
+    url: http://releases.ubuntu.com/releases/20.04/ubuntu-20.04.3-live-server-amd64.iso
+    dest: /srv/http/ubuntu-20.04.3-live-server-amd64.iso
+  when: iso.stat.islnk is not defined
+
+- name: Extract kernel and ramdisk
+  iso_extract:
+    image: /srv/http/ubuntu-20.04.3-live-server-amd64.iso
+    dest: /srv/tftp/
+    files:
+    - casper/vmlinuz
+    - casper/initrd
+

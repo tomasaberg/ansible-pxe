@@ -1,0 +1,6 @@
+---
+- include: install.yml
+- include: config.yml
+- include: media.yml
+- include: grub.yml
+- include: cloud-init.yml
